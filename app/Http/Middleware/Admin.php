@@ -19,6 +19,7 @@ class Admin
             return $next($request);
         }
 
-        return redirect('/dashboard');
+        // Redirect to home or any other page with an error message
+        return redirect('/')->with('error', 'You do not have access to the dashboard.');
     }
 }

@@ -61,6 +61,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::resource('/category', CategoryController::class);
 
     Route::middleware('admin')->group(function () {
+        Route::get('/dashboard', [TodoController::class, 'dashboard'])->name('dashboard');
+
         Route::get('/user', [UserController::class, 'index'])->name('user.index');
         Route::delete('/user/{user}', [UserController::class, 'destroy'])->name('user.destroy');
         Route::patch('/user/{user}/makeadmin', [UserController::class, 'makeadmin'])->name('user.makeadmin');

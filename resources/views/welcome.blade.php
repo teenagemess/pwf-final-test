@@ -4,12 +4,15 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="resources/css/app.css">
+    <link rel="stylesheet" href="{{ asset('css/welcome.css') }}">
     <title>Laravel</title>
 
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
+
 
     <!-- Styles -->
     <style>
@@ -17,6 +20,21 @@
         body {
             font-family: 'figtree', sans-serif;
             background-color: #f3f4f6; /* Light gray background */
+        }
+
+        .rounded-circle {
+            width: 30px;
+            height: 30px;
+            padding: 5px;
+            border-radius: 50%;
+            background-color: #6c757d; /* Sesuaikan dengan warna latar belakang atau tema */
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .rounded-circle i {
+            color: white; /* Sesuaikan dengan warna ikon */
         }
         .navbar {
             background-color: transparent; /* Transparent navbar */
@@ -69,7 +87,44 @@
             margin-left: 1rem;
         }
 
+        .dropdown-toggle::after {
+        display: inline-block;
+        margin-left: 5px;
+        vertical-align: 0.255em;
+        content: "";
+        border-top: 0.3em solid;
+        border-right: 0.3em solid transparent;
+        border-bottom: 0;
+        border-left: 0.3em solid transparent;
+        }
 
+    .dropdown-item {
+        padding: 0.75rem 1.5rem;
+        color: #333;
+        font-size: 14px;
+        }
+
+    .dropdown-item:hover,
+    .dropdown-item:focus {
+        background-color: #f8f9fa;
+        color: #4B6BFB;
+        }
+
+    .dropdown-menu {
+        border: none;
+        box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.1);
+        border-radius: 5px;
+        }
+
+    .dropdown-menu::before {
+        content: '';
+        position: absolute;
+        top: -5px;
+        left: calc(50% - 5px);
+        border-width: 0 5px 5px 5px;
+        border-style: solid;
+        border-color: transparent transparent white transparent;
+        }
         .container {
             max-width: 899px;
             margin: 0 auto;
@@ -223,31 +278,47 @@
             justify-content: center;
         }
 
+        .alert {
+        padding: 20px;
+        background-color: #f44336; /* Red */
+        color: white;
+        margin-bottom: 15px;
+    }
+
+    .alert-danger {
+        background-color: #f44336; /* Red */
+    }
+
+    .closebtn {
+        margin-left: 15px;
+        color: white;
+        font-weight: bold;
+        float: right;
+        font-size: 22px;
+        line-height: 20px;
+        cursor: pointer;
+        transition: 0.3s;
+    }
+
+    .closebtn:hover {
+        color: black;
+    }
+
     </style>
 </head>
 <body class="antialiased" style="background-color: white;  ">
-    <div class="relative min-h-screen bg-gray-100 bg-center sm:flex sm:justify-center sm:items-center bg-dots-darker dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white">
-        <nav class="navbar navbar-expand-lg" id="mainNavbar">
-                <a class="navbar-brand" href="#">
-                    <img src="/assets/Union.png" alt="Logo">
-                </a>
-                <div class="title-brand"><h3>Meta <Span style="font-weight: bold">Blog</Span></h3></div>
 
-            <div class="mx-auto navbar-nav">
-                <a class="nav-link" href="{{ url('/') }}">Home</a>
-                <a class="nav-link" href="#">Blog</a>
-                <a class="nav-link" href="#">Team</a>
-            </div>
-            <div class="navbar-right">
-                @if (Route::has('login'))
-                    @auth
-                        <a href="{{ url('/dashboard') }}" class="btn btn-primary">Dashboard</a>
-                    @else
-                        <a href="{{ route('login') }}" class="btn btn-secondary">Sign in</a>
-                    @endif
-                @endif
-            </div>
-        </nav>
+    @if (session('error'))
+    <div class="alert alert-danger alert-dismissible fade show" role="alert" id="error-alert">
+        {{ session('error') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+@endif
+
+    <div class="relative min-h-screen bg-gray-100 bg-center sm:flex sm:justify-center sm:items-center bg-dots-darker dark:bg-dots-lighter dark:bg-gray-900 selection:bg-red-500 selection:text-white">
+        @include('components.navbar')
         <div class="container">
             <!-- Jumbotron -->
             @if($todos->count() > 0)
@@ -307,6 +378,19 @@
                 $('#mainNavbar').removeClass('navbar-scrolled');
             }
         });
+    </script>
+
+    <script>
+        $(document).ready(function () {
+            setTimeout(function() {
+                $("#error-alert").alert('close');
+            }, 2000);
+        });
+    </script>
+
+    <script>
+        // Initialize Bootstrap dropdown
+        $('.dropdown-toggle').dropdown();
     </script>
 </body>
 </html>

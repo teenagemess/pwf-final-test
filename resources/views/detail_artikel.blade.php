@@ -9,6 +9,7 @@
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
 
     <!-- Styles -->
     <style>
@@ -16,6 +17,21 @@
         body {
             font-family: 'figtree', sans-serif;
             background-color: white; /* Light gray background */
+        }
+
+        .rounded-circle {
+            width: 30px;
+            height: 30px;
+            padding: 5px;
+            border-radius: 50%;
+            background-color: #6c757d; /* Sesuaikan dengan warna latar belakang atau tema */
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .rounded-circle i {
+            color: white; /* Sesuaikan dengan warna ikon */
         }
 
         .navbar {
@@ -170,27 +186,7 @@
     </style>
 </head>
 <body class="antialiased">
-    <nav class="navbar navbar-expand-lg" id="mainNavbar">
-        <a class="navbar-brand" href="#">
-            <img src="/assets/Union.png" alt="Logo">
-        </a>
-        <div class="title-brand"><h3>Meta <Span style="font-weight: bold">Blog</Span></h3></div>
-
-    <div class="mx-auto navbar-nav">
-        <a class="nav-link" href="{{ url('/') }}">Home</a>
-        <a class="nav-link" href="#">Blog</a>
-        <a class="nav-link" href="#">Team</a>
-    </div>
-    <div class="navbar-right">
-        @if (Route::has('login'))
-            @auth
-                <a href="{{ url('/dashboard') }}" class="btn btn-primary">Dashboard</a>
-            @else
-                <a href="{{ route('login') }}" class="btn btn-secondary">Sign in</a>
-            @endif
-        @endif
-    </div>
-</nav>
+    @include('components.navbar')
     <div class="container">
         @if ($todo->image_path)
             <img src="{{ $todo->getImage() }}" alt="{{ $todo->title }}" class="rounded-lg">
