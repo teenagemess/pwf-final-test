@@ -8,18 +8,71 @@
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=figtree:400,600&display=swap" rel="stylesheet" />
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Styles -->
     <style>
         /* Base styles */
         body {
             font-family: 'figtree', sans-serif;
-            background-color: #f3f4f6; /* Light gray background */
+            background-color: white; /* Light gray background */
+        }
+
+        .navbar {
+            top: 0;
+            background-color: transparent; /* Transparent navbar */
+            padding: 15px 20px;
+            border-bottom: none; /* No border */
+            transition: background-color 0.3s ease; /* Smooth transition */
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .navbar.navbar-scrolled {
+            background-color: #ffffff; /* White background on scroll */
+            border-bottom: 1px solid #e3e3e3; /* Light gray border bottom */
+        }
+
+        .navbar-brand img {
+            height: 40px; /* Adjust height as needed */
+            vertical-align: middle; /* Align vertically */
+        }
+
+        .title-brand {
+            font-size: 20px;
+            color: #333333; /* Dark gray text */
+        }
+
+        .navbar-nav {
+            flex-grow: 1; /* Take remaining space */
+            display: flex;
+            justify-content: center; /* Center align navbar links */
+            align-items: center; /* Vertical alignment */
+        }
+
+        .navbar-nav .nav-link {
+            padding: 0.5rem 1rem;
+            color: #333333; /* Dark gray text */
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: #4B6BFB; /* Dark gray text on hover */
+        }
+
+        .navbar-right {
+            margin-left: auto; /* Pushes buttons to the right */
+            display: flex;
+            align-items: center; /* Vertical alignment */
+        }
+
+        .navbar-right .btn {
+            margin-left: 1rem;
         }
 
         .container {
             max-width: 800px;
-            margin: 20px auto;
+            margin: 80px auto;
             padding: 20px;
             background-color: #ffffff; /* White card background */
             border-radius: 8px;
@@ -110,9 +163,34 @@
         .comment-form button:hover {
             background-color: #0056b3;
         }
+
+        .back-button {
+            margin-top: 20px;
+        }
     </style>
 </head>
 <body class="antialiased">
+    <nav class="navbar navbar-expand-lg" id="mainNavbar">
+        <a class="navbar-brand" href="#">
+            <img src="/assets/Union.png" alt="Logo">
+        </a>
+        <div class="title-brand"><h3>Meta <Span style="font-weight: bold">Blog</Span></h3></div>
+
+    <div class="mx-auto navbar-nav">
+        <a class="nav-link" href="{{ url('/') }}">Home</a>
+        <a class="nav-link" href="#">Blog</a>
+        <a class="nav-link" href="#">Team</a>
+    </div>
+    <div class="navbar-right">
+        @if (Route::has('login'))
+            @auth
+                <a href="{{ url('/dashboard') }}" class="btn btn-primary">Dashboard</a>
+            @else
+                <a href="{{ route('login') }}" class="btn btn-secondary">Sign in</a>
+            @endif
+        @endif
+    </div>
+</nav>
     <div class="container">
         @if ($todo->image_path)
             <img src="{{ $todo->getImage() }}" alt="{{ $todo->title }}" class="rounded-lg">
@@ -149,6 +227,26 @@
                 </form>
             </div>
         </div>
+
+        <!-- Back button -->
+        <div class="back-button">
+            <a href="javascript:history.back()" class="btn btn-secondary">Back to Home</a>
+        </div>
     </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        // Add scroll event listener to navbar
+        $(window).scroll(function() {
+            var scroll = $(window).scrollTop();
+            if (scroll > 50) {
+                $('#mainNavbar').addClass('navbar-scrolled');
+            } else {
+                $('#mainNavbar').removeClass('navbar-scrolled');
+            }
+        });
+    </script>
 </body>
 </html>

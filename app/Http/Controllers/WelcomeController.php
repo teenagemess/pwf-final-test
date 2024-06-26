@@ -10,7 +10,7 @@ class WelcomeController extends Controller
     public function index()
     {
         // Mengambil maksimal 12 data per halaman dengan pagination
-        $todos = Todo::paginate(12);
+        $todos = Todo::paginate(9);
 
         return view('welcome', compact('todos'));
     }
